@@ -26,6 +26,17 @@ describe "LayoutLinks" do
 		response.should have_selector('title', :content => "sign_up");
 	end
 
+
+	it "should have correct links" do
+		visit root_path
+		click_link "about"
+		response.should have_selector("title", :content => "about")
+		click_link "Help"
+		response.should have_selector("title", :content => "help")
+		click_link "contact"
+		response.should have_selector("title", :content => "contact")
+	end
+
 end
 
 	
