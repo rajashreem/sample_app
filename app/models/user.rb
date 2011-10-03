@@ -1,5 +1,9 @@
 class User < ActiveRecord::Base
-	attr_accessible :name, :email
+
+	attr_accessor :password
+	attr_accessible :name, :email, :password, :password_confirmation
+
+
 	regex = /\A[\w+\-.]+@[a-z\-\d.]+\.[a-z]+\z/i
 	
 	validates :name, :presence => true,
@@ -9,4 +13,23 @@ class User < ActiveRecord::Base
 	validates :email, :presence => true,
 				:format=> {:with => regex},
 				:uniqueness => {:case_sensitive => false}
+
+	validates :password, :presence => true,
+					:confirmation => true,
+					:length => {:within => 6..39}
+
+	before_save :encrypt_password
+
+	def has_password? (given_password) 
+	end
+
+	private
+	
+		def encrypt_password
+			self.encrypted_password = encrypt(password)
+		end
+
+		def encrypt(string)
+			string
+		end
 end
